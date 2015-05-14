@@ -3,6 +3,7 @@ import os, time
 import os.path as path
 import sys
 import subprocess
+import random
 def parser():
     file = open('/home/michael/CUT_Drone/matlab_features/matlab_out', 'r')
     #print file.readline()
@@ -82,13 +83,16 @@ if __name__ == "__main__":
                 else:
                     biggest = 7
                 print "Sending command", i
+                e=round(random.uniform(0.0, 1.0), 10)
+                if e<0.5:
+                    biggest=random.randint(0,7)
                 subprocess.call(['/home/michael/CUT_Drone/scripts/publish_command_script.sh',`biggest`])  
                 first_time=path.getmtime(path_to_watch)
                 break
             else:
                 temp = path.getmtime(path_to_watch)
         if reward==100:
-        	print "SUCCESS! Landing"
+            print "SUCCESS! Landing"
                 subprocess.call(['/home/michael/CUT_Drone/scripts/publish_command_script.sh',`8`])  
     exp_name=input("The name of the experament:")
     np.savetxt('/home/michael/CUT_Drone/feed_forward_outputs/input_rcnn_features/'+str(exp_name)+'.txt', input_vector, fmt='%f')
